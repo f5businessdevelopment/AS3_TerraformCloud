@@ -1,3 +1,15 @@
+
+
+
+
+
+
+
+
+
+
+
+
 # main.tf
 
 
@@ -6,7 +18,7 @@ data "http" "myip" {
   url = "https://ipv4.icanhazip.com"
 }
 
- 
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.4.0"
@@ -32,7 +44,7 @@ resource "aws_security_group" "f5" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]# Replace with your laptop's public IP
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"] # Replace with your laptop's public IP
   }
 
   ingress {
@@ -42,11 +54,18 @@ resource "aws_security_group" "f5" {
     cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
   }
 
- ingress {
+  ingress {
     from_port   = 8443
     to_port     = 8443
     protocol    = "tcp"
     cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
 
@@ -57,4 +76,39 @@ resource "aws_security_group" "f5" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "nginx" {
+  name   = "${var.prefix}-nginx"
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 

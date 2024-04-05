@@ -9,7 +9,7 @@ resource "aws_instance" "f5" {
   associate_public_ip_address = true
   subnet_id                   = module.vpc.public_subnets[0]
   vpc_security_group_ids      = [aws_security_group.f5.id]
-  user_data                   = templatefile("template/f5.tpl",local.template_vars) 
+  user_data                   = templatefile("template/f5.tpl", local.template_vars)
   key_name                    = aws_key_pair.demo.key_name
   root_block_device {
     delete_on_termination = true
