@@ -1,18 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
 # main.tf
-
-
 
 data "http" "myip" {
   url = "https://ipv4.icanhazip.com"
@@ -26,7 +12,7 @@ module "vpc" {
   name = "${var.prefix}-vpc"
   cidr = "10.0.0.0/16"
 
-  azs             = ["us-east-1a"]
+  azs             = ["us-west-2a"]
   private_subnets = ["10.0.2.0/24"]
   public_subnets  = ["10.0.0.0/24"]
 
