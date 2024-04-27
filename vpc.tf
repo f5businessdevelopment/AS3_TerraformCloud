@@ -9,7 +9,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.4.0"
 
-  name = "${var.prefix}-vpc"
+  name = "student${local.prefix}-vpc"
   cidr = "10.0.0.0/16"
 
   azs             = ["us-west-2a"]
@@ -23,7 +23,7 @@ resource "aws_eip" "f5" {
   vpc      = true
 }
 resource "aws_security_group" "f5" {
-  name        = "${var.prefix}-f5"
+  name        = "${local.prefix}-f5"
   description = "Allow inbound SSH and HTTPS traffic from my IP"
   vpc_id      = module.vpc.vpc_id # Specify the VPC ID here
   ingress {
@@ -64,7 +64,7 @@ resource "aws_security_group" "f5" {
 }
 
 resource "aws_security_group" "nginx" {
-  name   = "${var.prefix}-nginx"
+  name   = "$nginx${local.prefix}"
   vpc_id = module.vpc.vpc_id
 
   ingress {

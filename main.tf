@@ -17,3 +17,16 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+
+locals {
+
+  prefix = random_string.pre.result
+
+}
+
+resource "random_string" "pre" {
+  length  = 4
+  special = false
+}
+
+

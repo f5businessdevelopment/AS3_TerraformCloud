@@ -1,7 +1,7 @@
 
 resource "aws_instance" "f5" {
   #F5 BIGIP-14.1.0.3-0.0.6 PAYG-Good 25Mbps-190326002717
- # ami = "ami-00a9fd893d5d15cf6" #for east coast ami
+  # ami = "ami-00a9fd893d5d15cf6" #for east coast ami
   ami = "ami-09ae9af26d2e96786"
 
   instance_type               = "m5.xlarge"
@@ -16,8 +16,8 @@ resource "aws_instance" "f5" {
   }
 
   tags = {
-    Name = "${var.prefix}-f5"
-    Env  = "scs"
+    Name = "student${local.prefix}-f5"
+    Env  = "Env-${local.prefix}"
   }
 }
 

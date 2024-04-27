@@ -10,7 +10,7 @@ resource "aws_instance" "app1" {
   #iam_instance_profile   = aws_iam_instance_profile.vault.name
   key_name = aws_key_pair.demo.key_name
   tags = {
-    Name = "${var.prefix}-app1"
-    Env  = "prefix"
+    Name = "student${local.prefix}-app1"
+    Env  = "Env${local.prefix}"
   }
 }
