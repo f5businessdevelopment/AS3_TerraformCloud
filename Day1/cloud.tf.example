@@ -1,0 +1,27 @@
+terraform {
+  required_providers {
+    bigip = {
+      source = "F5Networks/bigip"
+    version = "1.21.0"
+    }
+  }
+
+
+  cloud {
+    organization = "${org}"
+
+
+
+    workspaces {
+      name = "${works}"
+    }
+  } 
+}
+
+
+provider "bigip" {
+  address  = var.hostname
+  username = var.username
+  password = var.password
+}
+

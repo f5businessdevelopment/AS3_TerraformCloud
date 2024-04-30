@@ -1,4 +1,4 @@
- # main.tf
+# main.tf
 
 data "http" "myip" {
   url = "https://ipv4.icanhazip.com"
@@ -20,7 +20,7 @@ module "vpc" {
 }
 resource "aws_eip" "f5" {
   instance = aws_instance.f5.id
-  domain      = "vpc"
+  domain   = "vpc"
 }
 resource "aws_security_group" "f5" {
   name        = "${local.prefix}-f5"
@@ -39,7 +39,7 @@ resource "aws_security_group" "f5" {
     protocol    = "tcp"
     cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
   }
-ingress {
+  ingress {
     from_port   = 8443
     to_port     = 8443
     protocol    = "tcp"
@@ -79,7 +79,7 @@ resource "aws_security_group" "nginx" {
     protocol    = "tcp"
     cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
   }
- ingress {
+  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
