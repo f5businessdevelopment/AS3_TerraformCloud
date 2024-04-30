@@ -20,7 +20,7 @@ module "vpc" {
 }
 resource "aws_eip" "f5" {
   instance = aws_instance.f5.id
-  vpc      = true
+  domain      = "vpc"
 }
 resource "aws_security_group" "f5" {
   name        = "${local.prefix}-f5"
