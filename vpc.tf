@@ -1,4 +1,4 @@
-# main.tf
+ # main.tf
 
 data "http" "myip" {
   url = "https://ipv4.icanhazip.com"
@@ -39,8 +39,7 @@ resource "aws_security_group" "f5" {
     protocol    = "tcp"
     cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
   }
-
-  ingress {
+ingress {
     from_port   = 8443
     to_port     = 8443
     protocol    = "tcp"
@@ -64,7 +63,7 @@ resource "aws_security_group" "f5" {
 }
 
 resource "aws_security_group" "nginx" {
-  name   = "$nginx${local.prefix}"
+  name   = "student${local.prefix}-nginx"
   vpc_id = module.vpc.vpc_id
 
   ingress {
@@ -80,8 +79,7 @@ resource "aws_security_group" "nginx" {
     protocol    = "tcp"
     cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
   }
-
-  ingress {
+ ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -95,6 +93,3 @@ resource "aws_security_group" "nginx" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-
-
